@@ -1,5 +1,3 @@
-import chalk from "chalk";
-
 const is2020 = (a, b) => {
 	return a + b === 2020;
 };
