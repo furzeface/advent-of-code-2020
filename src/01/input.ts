@@ -1,4 +1,11 @@
-export default `1254
+export const testInput = `1721
+979
+366
+299
+675
+1456`;
+
+export const puzzleInput = `1254
 1313
 1456
 1782

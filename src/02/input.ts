@@ -1,4 +1,8 @@
-export default `3-6 s: ssdsssss
+export const testInput = `1-3 a: abcde
+1-3 b: cdefg
+2-9 c: ccccccccc`;
+
+export const puzzleInput = `3-6 s: ssdsssss
 17-19 f: cnffsfffzhfnsffttms
 8-11 c: tzvtwncnwvwttp
 8-10 r: rwrrtrvttrrrr

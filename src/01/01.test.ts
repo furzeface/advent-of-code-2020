@@ -1,21 +1,15 @@
-import { sortExpenses } from "./01";
-import input from "./input";
+import { sortExpensesTwice, sortExpensesThrice } from "./01";
+import { testInput, puzzleInput } from "./input";
+describe("day 2", () => {
+  test("sorting the test input", () => {
+    expect(sortExpensesTwice(testInput)).toBe(514579);
+  });
 
-const testInput = `1721
-979
-366
-299
-675
-1456`;
+  test("sorting the expenses twice", () => {
+    expect(sortExpensesTwice(puzzleInput)).toBe(913824);
+  });
 
-test.skip("sorting the test input", () => {
-  expect(sortExpenses(testInput)).toBe(514579);
-});
-
-test.skip("sorting the expenses", () => {
-  expect(sortExpenses(input)).toBe(913824);
-});
-
-test.skip("sorting the expenses thrice", () => {
-  expect(sortExpenses(input)).toBe(240889536);
+  test("sorting the expenses thrice", () => {
+    expect(sortExpensesThrice(puzzleInput)).toBe(240889536);
+  });
 });

@@ -1,15 +1,31 @@
-const is2020 = (a, b) => {
-  return a + b === 2020;
+import { puzzleInputToArray } from "../utils";
+
+const sortExpensesTwice = (input: string) => {
+  const expenses = puzzleInputToArray(input);
+
+  let total: number;
+
+  expenses.forEach((expense: string) => {
+    expenses.forEach((nextExpense: string) => {
+      const firstExpense = parseInt(expense);
+      const secondExpense = parseInt(nextExpense);
+
+      if (firstExpense + secondExpense === 2020) {
+        total = firstExpense * secondExpense;
+      }
+    });
+  });
+  return total;
 };
 
-const sortExpenses = (input) => {
+const sortExpensesThrice = (input: string) => {
   const expenses = input.split("\n");
 
-  let total;
+  let total: number;
 
-  expenses.forEach((expense) => {
-    expenses.forEach((nextExpense) => {
-      expenses.forEach((nexterExpense) => {
+  expenses.forEach((expense: string) => {
+    expenses.forEach((nextExpense: string) => {
+      expenses.forEach((nexterExpense: string) => {
         const firstExpense = parseInt(expense);
         const secondExpense = parseInt(nextExpense);
         const thirdExpense = parseInt(nexterExpense);
@@ -20,7 +36,8 @@ const sortExpenses = (input) => {
       });
     });
   });
+
   return total;
 };
 
-export { is2020, sortExpenses };
+export { sortExpensesTwice, sortExpensesThrice };
