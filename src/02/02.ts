@@ -9,8 +9,8 @@ const passwordsValid = (input) => {
     const letterRequired = letter[0];
 
     const regex = new RegExp(letterRequired, "g");
-		const occurrences = (passwordString.match(regex) || []).length;
-		// @ts-ignore
+    const occurrences = (passwordString.match(regex) || []).length;
+    // @ts-ignore
     return occurrences >= min && occurrences <= max;
   }).length;
 };

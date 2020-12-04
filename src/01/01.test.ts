@@ -1,6 +1,7 @@
 import { sortExpensesTwice, sortExpensesThrice } from "./01";
 import { testInput, puzzleInput } from "./input";
-describe("day 2", () => {
+
+describe("day 01", () => {
   test("sorting the test input", () => {
     expect(sortExpensesTwice(testInput)).toBe(514579);
   });

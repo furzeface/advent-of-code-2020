@@ -1,7 +1,7 @@
 import { passwordsValid, newPolicy } from "./02";
 import { puzzleInput, testInput } from "./input";
 
-describe("day 2", () => {
+describe("day 02", () => {
   test("validating the test input", () => {
     expect(passwordsValid(testInput)).toBe(2);
   });
