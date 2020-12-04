@@ -1,5 +1,5 @@
-const puzzleInputToArray = (input: string) => {
-  return input.split("\n");
+const puzzleInputToArray = (input: string, char = "\n") => {
+  return input.split(char);
 };
 
 export { puzzleInputToArray };
