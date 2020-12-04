@@ -1,7 +1,8 @@
+#!/usr/bin/env node
+
 const fs = require("fs");
 
 let today = new Date().getDate();
-
 if (today < 10) {
   today = today.toString().padStart(2, "0");
 }
@@ -17,6 +18,7 @@ const X = (input: string) => {
 };
 
 export { X };`;
+
 const inputTemplate = () => `export const testInput = \`\`;
 
 export const puzzleInput = \`\`;`;
