@@ -1,4 +1,9 @@
-import { getAirplaneSeat, getHighestPassId } from "./05";
+import {
+  getAirplaneSeat,
+  getHighestPassId,
+  sortSeats,
+  findMissingSeatId,
+} from "./05";
 import {
   testInput1,
   testInput2,
@@ -38,5 +43,9 @@ describe("day 05", () => {
 
   test("returning the highest in a list of puzzle input boarding pass IDs", () => {
     expect(getHighestPassId(puzzleInput)).toBe(906);
+  });
+
+  test("returning a list of seat IDs for the missing ID", () => {
+    expect(findMissingSeatId(sortSeats(puzzleInput))).toBe(519);
   });
 });

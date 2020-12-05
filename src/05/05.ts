@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import { puzzleInputToArray } from "../utils";
 
 const columnsTotal = 8;
@@ -41,6 +42,11 @@ const getAirplaneSeat = (input: string) => {
 };
 
 const getHighestPassId = (input) => {
+  const seatIds = sortSeats(input);
+  return seatIds[seatIds.length - 1];
+};
+
+const sortSeats = (input, dir = "asc") => {
   const inputArray = puzzleInputToArray(input);
   const seatIds = inputArray
     .map((seatInput) => {
@@ -51,9 +57,28 @@ const getHighestPassId = (input) => {
     });
 
   seatIds.sort((a, b) => {
-    return a - b;
+    if (dir === "asc") {
+      return a - b;
+    } else {
+      return b - a;
+    }
   });
-  return seatIds[seatIds.length - 1];
+  return seatIds;
 };
 
-export { getAirplaneSeat, getHighestPassId };
+const findMissingSeatId = (input) => {
+  let incorrect;
+  input.forEach((seatId, index) => {
+    if (input[index + 1] - input[index] !== 1) {
+      const lowerBound = input[index];
+      const higherBound = input[index + 1];
+      if (higherBound) {
+        incorrect = lowerBound + 1;
+      }
+    }
+  });
+
+  return incorrect;
+};
+
+export { getAirplaneSeat, getHighestPassId, sortSeats, findMissingSeatId };
