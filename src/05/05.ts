@@ -3,43 +3,34 @@ import { puzzleInputToArray } from "../utils";
 const columnsTotal = 8;
 const rowsTotal = 128;
 
-const getRow = (rowsInput) => {
-  let totalRows = [...Array(rowsTotal).keys()];
-  const rowsArray = rowsInput.split("");
+const getSeatLocation = (input, upper, lower, total) => {
+  let totalSeatLocations = [...Array(total).keys()];
+  const inputArray = input.split("");
 
-  for (let i = 0; i < rowsArray.length; i++) {
-    const currentRow = rowsArray[i];
-    if (currentRow === "B") {
-      totalRows = totalRows.splice(totalRows.length / 2, totalRows.length);
-    } else if (currentRow === "F") {
-      totalRows = totalRows.splice(0, totalRows.length / 2);
-    }
-  }
-
-  return totalRows[0];
-};
-
-const getColumn = (columnsInput) => {
-  let totalColumns = [...Array(columnsTotal).keys()];
-  const columnsArray = columnsInput.split("");
-
-  for (let i = 0; i < columnsArray.length; i++) {
-    if (columnsArray[i] === "R") {
-      totalColumns = totalColumns.splice(
-        totalColumns.length / 2,
-        totalColumns.length
+  for (let i = 0; i < inputArray.length; i++) {
+    const currentRow = inputArray[i];
+    if (currentRow === upper) {
+      totalSeatLocations = totalSeatLocations.splice(
+        totalSeatLocations.length / 2,
+        totalSeatLocations.length
       );
-    } else if (columnsArray[i] === "L") {
-      totalColumns = totalColumns.splice(0, totalColumns.length / 2);
+    } else if (currentRow === lower) {
+      totalSeatLocations = totalSeatLocations.splice(
+        0,
+        totalSeatLocations.length / 2
+      );
     }
   }
 
-  return totalColumns[0];
+  return totalSeatLocations[0];
 };
 
 const getAirplaneSeat = (input: string) => {
-  const row = getRow(input.substring(0, 7));
-  const column = getColumn(input.substring(7, input.length));
+  const rowData = input.substring(0, 7);
+  const columnData = input.substring(7, input.length);
+
+  const row = getSeatLocation(rowData, "B", "F", rowsTotal);
+  const column = getSeatLocation(columnData, "R", "L", columnsTotal);
   const seatId = row * 8 + column;
 
   return {
