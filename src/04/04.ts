@@ -1,110 +1,63 @@
-import { puzzleInputToArray } from "../utils";
+import { fieldData, puzzleInput } from "./input";
 
-const validFields = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid", "cid"];
-
-const birthYearValid = (field) => {
-  const year = parseInt(field, 10);
-  // @ts-ignore
-  const isValid = field.length === 4 && year >= 1920 && year <= 2020;
-  // console.log("Birth", field, isValid);
-
-  return isValid;
-};
-const issueYearValid = (field) => {
-  const year = parseInt(field, 10);
-  // @ts-ignore
-  const isValid = field.length === 4 && year >= 2010 && year <= 2020;
-  // console.log("Issue", field, isValid);
-
-  return isValid;
-};
-const expirationYearValid = (field) => {
-  const year = parseInt(field, 10);
-  // @ts-ignore
-  const isValid = field.length === 4 && year >= 2020 && year <= 2030;
-  // console.log("Exp", field, isValid);
-  return isValid;
-};
-const heightValid = (field) => {
-  const unit = field.slice(-2);
-  const value = parseInt(field.replace(unit, ""), 10);
-  switch (unit) {
-    case "cm":
-      // @ts-ignore
-      return value >= 150 && value <= 193;
-    case "in":
-      // @ts-ignore
-      return value >= 59 && value <= 76;
-  }
-};
-const hairColourValid = (field) => {
-  const isValid = RegExp(/^#([0-9a-f]{3}){1,2}$/i).test(field);
-  // console.log("Hair", field, isValid);
-  return isValid;
+const getPassportsFromStringToArray = (str) => {
+  const items = str.split("\n");
+  return items;
 };
 
-const eyeColourValid = (field) => {
-  const eyeColours = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"];
-  const isValid = field.length ===3 && eyeColours.some((eyeColour) => field.includes(eyeColour));
-	// console.log("EYE", field, isValid);
+const dataArray = getPassportsFromStringToArray(puzzleInput);
+const validFields = fieldData;
 
-
-  return isValid;
-};
-const pidYearValid = (field) => {
-  const isValid = RegExp(/^[0-9]{9}$/).test(field);
-  // console.log("PID", field, isValid);
-  return isValid;
-};
-
-const validateFields = (passport) => {
-  const fields = passport.split(/[ \n]+/);
-
-  const mappedFields = {
-    byr: null,
-    iyr: null,
-    eyr: null,
-    hgt: null,
-    hcl: null,
-    ecl: null,
-    pid: null,
-  };
-
-  fields.map((field) => {
-    const split = field.split(":");
-    mappedFields[split[0]] = split[1];
+const resetFields = () => {
+  validFields.forEach((field) => {
+    field.present = false;
+    field.value = "";
   });
+};
 
-  const fieldsValid = fields.filter((field) => {
-    return validFields.some((validField) => field.includes(validField));
-  }).length;
-
-  // number of fields correct || only CID missing
-  if (
-    fieldsValid === validFields.length ||
-    (fieldsValid === validFields.length - 1 && !passport.includes("cid"))
-  ) {
-    // then validate individual fields
-    return (
-      birthYearValid(mappedFields.byr) &&
-      issueYearValid(mappedFields.iyr) &&
-      expirationYearValid(mappedFields.eyr) &&
-      heightValid(mappedFields.hgt) &&
-      hairColourValid(mappedFields.hcl) &&
-      eyeColourValid(mappedFields.ecl) &&
-      pidYearValid(mappedFields.pid)
-    );
+const isCurrentPassportValid = () => {
+  for (let i = 0; i < validFields.length; i++) {
+    if (validFields[i].present === false && !validFields[i].optional) {
+      return false;
+    }
+    if (validFields[i].regex) {
+      var re = new RegExp(validFields[i].regex);
+      if (validFields[i].value && !re.test(validFields[i].value)) {
+        return false;
+      }
+    }
   }
-
-  return false;
+  return true;
 };
 
-const passportsValid = (input: string) => {
-  const passports = puzzleInputToArray(input, "\n\n");
-
-  return passports.filter((passport) => {
-    return validateFields(passport);
-  }).length;
+export const thing = () => {
+  let validPassports = 0;
+  for (let row = 0; row < dataArray.length; row++) {
+    if (dataArray[row] === "") {
+      if (isCurrentPassportValid()) {
+        validPassports++;
+      }
+      resetFields();
+      continue;
+    }
+    const fields = dataArray[row].split(" ");
+    fields.forEach((field) => {
+      const fieldTokens = field.split(":");
+      const fieldName = fieldTokens[0];
+      const fieldValue = fieldTokens[1];
+      validFields.forEach((field) => {
+        if (fieldName === field.name) {
+          field.present = true;
+          field.value = fieldValue;
+        }
+      });
+    });
+    if (row === dataArray.length - 1) {
+      if (isCurrentPassportValid()) {
+        validPassports++;
+      }
+      resetFields();
+    }
+  }
+  console.log(validPassports);
 };
-
-export { passportsValid };
