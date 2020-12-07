@@ -11,28 +11,28 @@ const dir = `./src/${today}`;
 
 const dayTemplate = () => `import { puzzleInputToArray } from "../utils";
 
-const X = (input: string) => {
+const doTheThing = (input: string) => {
 	const inputArray = puzzleInputToArray(input);
 
 	return 42;
 };
 
-export { X };`;
+export { doTheThing };`;
 
 const inputTemplate = () => `export const testInput = \`\`;
 
 export const puzzleInput = \`\`;`;
 
-const testTemplate = () => `import { X } from "./${today}";
+const testTemplate = () => `import { doTheThing } from "./${today}";
 import { testInput, puzzleInput } from "./input";
 
 describe("day ${today}", () => {
-  test("sorting the test input", () => {
-    expect(X(testInput)).toBe(42);
+  test.only("sorting the test input", () => {
+    expect(doTheThing(testInput)).toBe(42);
 	});
 
 	test("sorting the puzzle input", () => {
-    expect(X(puzzleInput)).toBe(42);
+    expect(doTheThing(puzzleInput)).toBe(42);
   });
 });
 `;

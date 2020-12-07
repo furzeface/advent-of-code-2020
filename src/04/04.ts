@@ -45,9 +45,10 @@ const hairColourValid = (field) => {
 
 const eyeColourValid = (field) => {
   const eyeColours = ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"];
-  const isValid = field.length ===3 && eyeColours.some((eyeColour) => field.includes(eyeColour));
-	// console.log("EYE", field, isValid);
-
+  const isValid =
+    field.length === 3 &&
+    eyeColours.some((eyeColour) => field.includes(eyeColour));
+  // console.log("EYE", field, isValid);
 
   return isValid;
 };
